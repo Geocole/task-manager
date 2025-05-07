@@ -78,7 +78,6 @@ Visit [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
 ## 📝 Usage
 
 * Navigate to the dashboard.
-* Create a new project and add tasks.
 * Drag and drop tasks to reorder them.
 * Edit or delete tasks as needed.
 * Filter tasks by project using the dropdown menu.
