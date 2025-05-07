@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Models\User;
@@ -10,11 +12,11 @@ class UpdateTeamNameTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_team_names_can_be_updated(): void
+    public function testTeamNamesCanBeUpdated(): void
     {
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
 
-        $this->put('/teams/'.$user->currentTeam->id, [
+        $this->put('/teams/' . $user->currentTeam->id, [
             'name' => 'Test Team',
         ]);
 

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Task;
 
 use App\Models\Task;
+use Exception;
 
 class TaskService implements TaskServiceInterface
 {
@@ -30,10 +33,15 @@ class TaskService implements TaskServiceInterface
         Task::findOrFail($id)->delete();
     }
 
-    public function reorder(array $orderedIds): void
+    public function reorder(array $orderedIds): array
     {
-        foreach ($orderedIds as $index => $id) {
-            Task::where('id', $id)->update(['priority' => $index + 1]);
+        try {
+            foreach ($orderedIds as $index => $id) {
+                Task::where('id', $id)->update(['priority' => $index + 1]);
+            }
+            return ['success', 'Tasks reordered successfully.'];
+        } catch (Exception $ex) {
+            return ['error', $ex->getMessage()];
         }
     }
 }

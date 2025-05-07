@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Project;
@@ -14,6 +16,9 @@ class DashboardController extends Controller
             'projectCount' => Project::count(),
             'taskCount' => Task::count(),
             'tasksToday' => Task::whereDate('due_date', now()->toDateString())->count(),
+            'auth' => [
+                'user' => auth()->user()->load('roles'),
+            ],
         ]);
     }
 }

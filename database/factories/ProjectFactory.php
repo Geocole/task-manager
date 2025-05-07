@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Project;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProjectFactory extends Factory
@@ -25,6 +26,7 @@ class ProjectFactory extends Factory
             'location' => $this->faker->city(),
             'category' => $this->faker->randomElement(['construction', 'tech', 'event', 'design']),
             'code' => strtoupper($this->faker->bothify('PRJ-###??')),
+            'owner_id' => null,
         ];
     }
 }

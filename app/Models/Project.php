@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
@@ -34,8 +36,8 @@ class Project extends Model
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => ucfirst($value),
-            set: fn($value) => strtolower($value)
+            get: fn ($value) => ucfirst($value),
+            set: fn ($value) => strtolower($value)
         );
     }
 
@@ -43,8 +45,19 @@ class Project extends Model
     protected function budget(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => number_format($value, 2, '.', ''),
-            set: fn($value) => $value
+            get: fn ($value) => number_format($value, 2, '.', ''),
+            set: fn ($value) => $value
         );
     }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'project_user');
+    }
+
 }

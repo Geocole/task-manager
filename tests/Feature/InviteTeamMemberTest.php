@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Models\User;
@@ -13,7 +15,7 @@ class InviteTeamMemberTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_team_members_can_be_invited_to_team(): void
+    public function testTeamMembersCanBeInvitedToTeam(): void
     {
         if (! Features::sendsTeamInvitations()) {
             $this->markTestSkipped('Team invitations not enabled.');
@@ -23,7 +25,7 @@ class InviteTeamMemberTest extends TestCase
 
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
 
-        $this->post('/teams/'.$user->currentTeam->id.'/members', [
+        $this->post('/teams/' . $user->currentTeam->id . '/members', [
             'email' => 'test@example.com',
             'role' => 'admin',
         ]);
@@ -33,7 +35,7 @@ class InviteTeamMemberTest extends TestCase
         $this->assertCount(1, $user->currentTeam->fresh()->teamInvitations);
     }
 
-    public function test_team_member_invitations_can_be_cancelled(): void
+    public function testTeamMemberInvitationsCanBeCancelled(): void
     {
         if (! Features::sendsTeamInvitations()) {
             $this->markTestSkipped('Team invitations not enabled.');
@@ -48,7 +50,7 @@ class InviteTeamMemberTest extends TestCase
             'role' => 'admin',
         ]);
 
-        $this->delete('/team-invitations/'.$invitation->id);
+        $this->delete('/team-invitations/' . $invitation->id);
 
         $this->assertCount(0, $user->currentTeam->fresh()->teamInvitations);
     }

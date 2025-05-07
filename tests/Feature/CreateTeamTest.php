@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Models\User;
@@ -10,7 +12,7 @@ class CreateTeamTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_teams_can_be_created(): void
+    public function testTeamsCanBeCreated(): void
     {
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
 

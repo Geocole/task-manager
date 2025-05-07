@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
-use App\Models\User;
 use App\Models\Project;
+use App\Models\User;
 
 class ProjectPolicy
 {
@@ -20,5 +22,12 @@ class ProjectPolicy
     public function delete(User $user, Project $project): bool
     {
         return $user->is_admin;
+    }
+
+    public function view(User $user, Project $project): bool
+    {
+        return $user->is_admin
+            || $user->id === $project->owner_id
+            || $project->users->contains($user->id);
     }
 }

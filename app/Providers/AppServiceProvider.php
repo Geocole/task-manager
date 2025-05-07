@@ -1,7 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
+use App\Services\Project\ProjectService;
+use App\Services\Project\ProjectServiceInterface;
+use App\Services\Task\TaskService;
+use App\Services\Task\TaskServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -12,12 +18,12 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            \App\Services\Project\ProjectServiceInterface::class,
-            \App\Services\Project\ProjectService::class
+            ProjectServiceInterface::class,
+            ProjectService::class
         );
         $this->app->bind(
-            \App\Services\Task\TaskServiceInterface::class,
-            \App\Services\Task\TaskService::class
+            TaskServiceInterface::class,
+            TaskService::class
         );
 
     }

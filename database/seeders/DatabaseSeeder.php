@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\User;
@@ -13,14 +15,34 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            PermissionSeeder::class,
+            RoleSeeder::class,
+        ]);
+
         // Admin user
-        User::factory()->create([
+        $admin = User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
             'password' => bcrypt('admin123'),
         ]);
 
-        User::factory(10)->create();
+        $permissions = [
+            'create tasks',
+            'update tasks',
+            'delete tasks',
+            'view tasks',
+            'reorder tasks',
+        ];
+
+        $admin->assignRole('admin');
+        $admin->givePermissionTo($permissions);
+
+        User::factory(10)->create()->each(function ($user) {
+            $user->assignRole('user');
+            $user->givePermissionTo(['view tasks', 'create tasks']);
+        });
+
         $this->call([
             ProjectSeeder::class,
             TaskSeeder::class,

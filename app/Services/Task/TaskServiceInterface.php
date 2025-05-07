@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Task;
 
 interface TaskServiceInterface
@@ -12,5 +14,5 @@ interface TaskServiceInterface
 
     public function delete(int $id): void;
 
-    public function reorder(array $orderedIds): void;
+    public function reorder(array $orderedIds): array;
 }

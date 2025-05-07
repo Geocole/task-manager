@@ -10,6 +10,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 
 defineProps({
     title: String,
+    user: Object
 });
 
 const showingNavigationDropdown = ref(false);
@@ -50,6 +51,12 @@ const logout = () => {
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
+                                </NavLink>
+                                <NavLink :href="route('tasks.index')" :active="route().current('tasks.index')">
+                                    Tasks
+                                </NavLink>
+                                <NavLink v-if="user && user.roles.length && user.roles[0].name === 'admin'" :href="route('projects.index')" :active="route().current('projects.index')">
+                                    Projects
                                 </NavLink>
                             </div>
                         </div>

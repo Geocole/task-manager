@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Models\User;
@@ -12,7 +14,7 @@ class DeleteApiTokenTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_api_tokens_can_be_deleted(): void
+    public function testApiTokensCanBeDeleted(): void
     {
         if (! Features::hasApiFeatures()) {
             $this->markTestSkipped('API support is not enabled.');
@@ -26,7 +28,7 @@ class DeleteApiTokenTest extends TestCase
             'abilities' => ['create', 'read'],
         ]);
 
-        $this->delete('/user/api-tokens/'.$token->id);
+        $this->delete('/user/api-tokens/' . $token->id);
 
         $this->assertCount(0, $user->fresh()->tokens);
     }

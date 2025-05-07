@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
@@ -25,12 +27,11 @@ class Task extends Model
         return $this->belongsTo(Project::class);
     }
 
-    // Nouveau mutateur Laravel 12
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => ucfirst($value),
-            set: fn($value) => strtolower($value)
+            get: fn ($value) => ucfirst($value),
+            set: fn ($value) => strtolower($value)
         );
     }
 }

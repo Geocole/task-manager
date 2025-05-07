@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Models\User;
@@ -10,7 +12,7 @@ class ProfileInformationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_profile_information_can_be_updated(): void
+    public function testProfileInformationCanBeUpdated(): void
     {
         $this->actingAs($user = User::factory()->create());
 

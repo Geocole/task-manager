@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
@@ -9,11 +11,12 @@ use App\Services\Task\TaskServiceInterface;
 
 class UpdateController extends Controller
 {
-    public function __construct(private TaskServiceInterface $service) {}
+    public function __construct(private TaskServiceInterface $service)
+    {
+    }
 
     public function __invoke(UpdateTaskRequest $request, Task $task)
     {
-        $this->authorize('update', $task);
 
         $this->service->update($task->id, $request->validated());
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Models\User;
@@ -12,7 +14,7 @@ class ApiTokenPermissionsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_api_token_permissions_can_be_updated(): void
+    public function testApiTokenPermissionsCanBeUpdated(): void
     {
         if (! Features::hasApiFeatures()) {
             $this->markTestSkipped('API support is not enabled.');
@@ -26,7 +28,7 @@ class ApiTokenPermissionsTest extends TestCase
             'abilities' => ['create', 'read'],
         ]);
 
-        $this->put('/user/api-tokens/'.$token->id, [
+        $this->put('/user/api-tokens/' . $token->id, [
             'name' => $token->name,
             'permissions' => [
                 'delete',

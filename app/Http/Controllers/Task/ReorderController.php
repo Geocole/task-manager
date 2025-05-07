@@ -1,26 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Task\ReorderTasksRequest;
 use App\Services\Task\TaskServiceInterface;
-use Illuminate\Http\Request;
 
 class ReorderController extends Controller
 {
-    public function __construct(private TaskServiceInterface $service) {}
-
-    public function __invoke(Request $request)
+    public function __construct(private TaskServiceInterface $service)
     {
-        $this->authorize('reorder', \App\Models\Task::class);
+    }
 
-        $request->validate([
-            'ordered_ids' => 'required|array',
-            'ordered_ids.*' => 'integer|exists:tasks,id',
-        ]);
+    public function __invoke(ReorderTasksRequest $request)
+    {
+        [$key, $message] = $this->service->reorder($request->input('tasks'));
 
-        $this->service->reorder($request->input('ordered_ids'));
-
-        return response()->json(['message' => 'Tasks reordered successfully.']);
+        return redirect()->route('tasks.index')->with($key, $message);
     }
 }
