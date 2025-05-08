@@ -16,7 +16,7 @@ class PermissionSeeder extends Seeder
             'update tasks',
             'delete tasks',
             'view tasks',
-            'reorder tasks', // Ajout ici
+            'reorder tasks',
         ];
 
         foreach ($permissions as $permission) {

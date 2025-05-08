@@ -11,12 +11,12 @@ class ProjectPolicy
 {
     public function create(User $user): bool
     {
-        return $user->is_admin; // ou autre règle
+        return $user->is_admin;
     }
 
     public function update(User $user, Project $project): bool
     {
-        return $user->id === $project->owner_id; // ou logique similaire
+        return $user->id === $project->owner_id;
     }
 
     public function delete(User $user, Project $project): bool

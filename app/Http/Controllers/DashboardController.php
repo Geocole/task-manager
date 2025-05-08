@@ -4,18 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
-use App\Models\Task;
+use App\Services\Project\ProjectService;
+use App\Services\Task\TaskService;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
+    public function __construct(
+        protected TaskService $taskService,
+        protected ProjectService $projectService
+    ) {
+    }
+
     public function __invoke()
     {
         return Inertia::render('Dashboard', [
-            'projectCount' => Project::count(),
-            'taskCount' => Task::count(),
-            'tasksToday' => Task::whereDate('due_date', now()->toDateString())->count(),
+            'projectCount' => $this->projectService->count(),
+            'taskCount' => $this->taskService->countUserTasks(),
+            'tasksToday' => $this->taskService->countTodayTasks(),
             'auth' => [
                 'user' => auth()->user()->load('roles'),
             ],

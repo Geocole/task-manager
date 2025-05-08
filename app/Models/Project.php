@@ -32,7 +32,6 @@ class Project extends Model
         return $this->hasMany(Task::class)->orderBy('priority');
     }
 
-    // Accessor pour name (capitalize automatiquement)
     protected function name(): Attribute
     {
         return Attribute::make(
@@ -41,11 +40,10 @@ class Project extends Model
         );
     }
 
-    // Accessor pour budget avec 2 décimales
     protected function budget(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => number_format($value, 2, '.', ''),
+            get: fn ($value) => number_format(intval($value), 2, '.', ''),
             set: fn ($value) => $value
         );
     }

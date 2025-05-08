@@ -20,17 +20,17 @@ class TaskPolicy
     /**
      * Determine if the user can update the task.
      */
-    public function update(User $user, Task $task): bool
+    public function update(User $user, Task $task)
     {
-        return $user->hasRole('admin');
+        return $user->id === $task->user_id || $user->hasRole('admin');
     }
 
     /**
      * Determine if the user can delete the task.
      */
-    public function delete(User $user, Task $task): bool
+    public function delete(User $user, Task $task)
     {
-        return $user->hasRole('admin');
+        return $user->id === $task->user_id || $user->hasRole('admin');
     }
 
     /**
@@ -48,6 +48,6 @@ class TaskPolicy
             return $project->status !== 'completed';
         }
 
-        return $project->status !== 'completed' && $user->projects()->where('id', $project->id)->exists();
+        return $project->status !== 'completed' && $user->projects()->where('projects.id', $project->id)->exists();
     }
 }

@@ -20,7 +20,7 @@ class IndexController extends Controller
     {
         $projectId = $request->get('project_id');
 
-        $tasks = $this->taskService->getTasks($projectId);
+        $tasks = $this->taskService->getUserTasks((int)$projectId);
         $projects = Project::orderBy('name')->get();
 
         return Inertia::render('Tasks/Index', [

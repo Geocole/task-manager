@@ -1,62 +1,43 @@
-<script setup>
-import { computed } from 'vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-
-const props = defineProps({
-    status: String,
-});
-
-const form = useForm({});
-
-const submit = () => {
-    form.post(route('verification.send'));
-};
-
-const verificationLinkSent = computed(() => props.status === 'verification-link-sent');
-</script>
-
 <template>
-    <Head title="Email Verification" />
+    <div class="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded">
+        <h2 class="text-xl font-bold mb-4">Email Verification</h2>
+        <p>An email verification link has been sent to your registered email address. Please verify your email before
+            continuing.</p>
 
-    <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
+        <button @click="resendEmail" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+            Resend Verification Email
+        </button>
 
-        <div class="mb-4 text-sm text-gray-600">
-            Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.
+        <div v-if="successMessage" class="mt-4 text-green-500">
+            {{ successMessage }}
         </div>
-
-        <div v-if="verificationLinkSent" class="mb-4 font-medium text-sm text-green-600">
-            A new verification link has been sent to the email address you provided in your profile settings.
+        <div v-if="errorMessage" class="mt-4 text-red-500">
+            {{ errorMessage }}
         </div>
-
-        <form @submit.prevent="submit">
-            <div class="mt-4 flex items-center justify-between">
-                <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Resend Verification Email
-                </PrimaryButton>
-
-                <div>
-                    <Link
-                        :href="route('profile.show')"
-                        class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Edit Profile</Link>
-
-                    <Link
-                        :href="route('logout')"
-                        method="post"
-                        as="button"
-                        class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ms-2"
-                    >
-                        Log Out
-                    </Link>
-                </div>
-            </div>
-        </form>
-    </AuthenticationCard>
+    </div>
 </template>
+
+<script setup>
+import { router } from '@inertiajs/vue3';
+import { ref } from 'vue';
+
+const successMessage = ref(null);
+const errorMessage = ref(null);
+
+const resendEmail = () => {
+    router.post(route('verification.send'), {}, {
+        onSuccess: () => {
+            successMessage.value = 'Verification email has been resent.';
+            setTimeout(() => {
+                successMessage.value = null;
+            }, 3000);
+        },
+        onError: () => {
+            errorMessage.value = 'Failed to resend verification email.';
+            setTimeout(() => {
+                errorMessage.value = null;
+            }, 3000);
+        }
+    });
+};
+</script>

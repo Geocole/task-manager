@@ -21,8 +21,12 @@ class CreateController extends Controller
         if (Gate::denies('create', Task::class)) {
             abort(403);
         }
-        $this->service->store($request->validated());
 
-        return redirect()->back()->with('success', 'Task created successfully.');
+        $task = $this->service->store($request->validated());
+
+        return redirect()->back()->with([
+            'success' => 'Task created successfully.',
+            'newTask' => $task,
+        ]);
     }
 }

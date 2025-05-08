@@ -6,6 +6,7 @@ namespace Database\Factories;
 
 use App\Models\Project;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TaskFactory extends Factory
@@ -20,8 +21,9 @@ class TaskFactory extends Factory
             'status' => $this->faker->randomElement(['pending', 'in_progress', 'done']),
             'priority' => $this->faker->numberBetween(1, 10),
             'due_date' => $this->faker->dateTimeBetween('now', '+2 months'),
-            'is_blocker' => $this->faker->boolean(15), // 15% de tâches bloquantes
-            'project_id' => Project::factory(), // ou injecté dans le seeder
+            'is_blocker' => $this->faker->boolean(15),
+            'project_id' => Project::factory(),
+            'user_id' => User::factory(),
         ];
     }
 }

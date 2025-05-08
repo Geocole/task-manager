@@ -8,6 +8,7 @@
         :enable-time-picker="false"
         :format="format"
         auto-apply
+        :teleport-center="true"
         class="mt-1"
       />
     </label>
@@ -32,7 +33,7 @@ const date = ref(props.modelValue);
 
 const updateDate = (newDate) => {
   date.value = newDate;
-  emits('update:modelValue', newDate); // Émet vers le parent
+  emits('update:modelValue', newDate);
 };
 
 const format = (date) => {

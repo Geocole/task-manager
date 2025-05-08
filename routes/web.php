@@ -49,3 +49,7 @@ Route::middleware(['auth'])->prefix('tasks')->name('tasks.')->group(function () 
     Route::delete('/{task}', DeleteTaskController::class)->name('delete');
     Route::post('/reorder', ReorderController::class)->name('reorder');
 });
+
+Route::get('/email/verify', function () {
+    return Inertia::render('Auth/VerifyEmail');
+})->middleware('auth')->name('verification.notice');
